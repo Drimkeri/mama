@@ -1,0 +1,1015 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f6eee2">
+<title>Мамины дни</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Baskervville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --paper:#f6eee2; --paper2:#eee2cf; --card:#fffaf2; --ink:#3b2a20; --muted:#8b7563;
+  --thread:#b5452f; --thread-soft:rgba(181,69,47,.42); --sage:#7f9a7a; --mustard:#d6a13f;
+  --sky:#6fb0a8; --sky-soft:#d8eeea; --line:#e6d6c1; --letter-ink:#2e4a6b; --todo:#fff0a8;
+  --shadow:0 8px 26px rgba(80,50,25,.12);
+  --hand:"Caveat","Marck Script","Segoe Print",cursive;
+  --serif:"Lora","Georgia","Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  color:var(--ink);font:18px/1.55 var(--serif);-webkit-text-size-adjust:100%;min-height:100vh;
+  background-color:var(--paper);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .32 0 0 0 0 .2 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(0deg, rgba(120,90,60,.025) 0 2px, transparent 2px 5px),
+    repeating-linear-gradient(90deg, rgba(120,90,60,.025) 0 2px, transparent 2px 5px);
+}
+body.noscroll{overflow:hidden}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+input,textarea{font:inherit;color:inherit}
+.wrap{max-width:620px;margin:0 auto;padding:0 16px 56px}
+
+/* ---------- шапка ---------- */
+.hero{text-align:center;padding:34px 4px 10px;position:relative}
+.hoop{width:112px;height:112px;margin:0 auto 6px;position:relative}
+.hoop svg{width:100%;height:100%;overflow:visible}
+.hoop .heart{stroke-dasharray:6 4;animation:stitch 5s linear infinite}
+@keyframes stitch{to{stroke-dashoffset:-100}}
+.star{position:absolute;color:var(--mustard);font-size:16px;animation:twinkle 3s ease-in-out infinite;pointer-events:none}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(.7)}50%{opacity:1;transform:scale(1)}}
+.kicker{font:600 13px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--thread)}
+.hero h1{font:700 clamp(54px,15vw,72px)/1 var(--hand);margin:10px 0 10px;color:var(--ink)}
+.hero .sub{color:var(--muted);margin:0 auto;max-width:28em;font-style:italic;font-size:17px}
+.buttons{display:flex;gap:10px;justify-content:center;margin-top:22px;align-items:center}
+.buttons::before,.buttons::after{content:"";flex:0 1 46px;border-top:2px dashed var(--thread-soft)}
+.pug{width:30px;height:30px;transition:transform .3s}
+.pug.new{animation:bob 1.8s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-4px) rotate(10deg)}}
+.cap{font:500 22px/1 var(--hand);color:var(--muted);margin-top:8px}
+
+/* ---------- карточки дней ---------- */
+.days{display:flex;flex-direction:column;gap:18px;margin-top:22px}
+.day{
+  display:flex;align-items:center;gap:14px;width:100%;text-align:left;border:0;
+  background:var(--card);border-radius:18px;padding:18px 18px;box-shadow:var(--shadow);
+  outline:2px dashed var(--thread-soft);outline-offset:-9px;
+  transform:rotate(var(--r,0deg));transition:transform .2s;position:relative
+}
+.day:active{transform:rotate(var(--r,0deg)) scale(.97)}
+.tag{flex:0 0 66px;text-align:center;padding:4px 12px 4px 4px;border-right:2px dashed var(--line)}
+.tag b{display:block;font:700 44px/0.9 var(--hand);color:var(--thread)}
+.tag span,.tag i{display:block;font:500 12px/1.4 var(--sans);color:var(--muted);font-style:normal;letter-spacing:.04em}
+.dbody{flex:1;min-width:0}
+.dlabel{font:600 12px/1.3 var(--sans);color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
+.dttl{font:700 27px/1.05 var(--hand);margin:3px 0 4px}
+.dstate{font:500 14px/1.3 var(--sans);color:var(--muted)}
+.ico{flex:0 0 40px;height:40px}
+.ico svg{width:100%;height:100%}
+.day.locked{background:var(--paper2);box-shadow:none;outline-color:rgba(139,117,99,.35)}
+.day.locked .dttl{color:var(--muted)}
+.day.locked .tag b{color:var(--muted)}
+.day.new{box-shadow:0 0 0 3px rgba(214,161,63,.35),var(--shadow)}
+.day.new .dstate{color:#b07a17;font-weight:700}
+.day.new .ico{animation:wiggle 2.4s ease-in-out infinite}
+.day.done .dstate{color:var(--sage)}
+.day.final:not(.locked){background:linear-gradient(135deg,#fffaf2 40%,var(--sky-soft));outline-color:rgba(111,176,168,.7)}
+.day.final:not(.locked) .tag b{color:var(--sky)}
+@keyframes wiggle{0%,78%,100%{transform:rotate(0)}84%{transform:rotate(-14deg)}90%{transform:rotate(12deg)}95%{transform:rotate(-5deg)}}
+.foot{text-align:center;color:var(--muted);margin-top:40px;font:500 24px/1.2 var(--hand)}
+.foot small{display:block;font:500 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px;opacity:.8}
+
+/* ---------- лист дня ---------- */
+#sheet{position:fixed;inset:0;z-index:50;background:rgba(59,42,32,.5);display:flex;align-items:flex-end;justify-content:center;animation:fade .25s}
+#sheet[hidden]{display:none}
+.panel{position:relative;background:var(--paper);background-image:inherit;width:100%;max-width:620px;max-height:94vh;overflow-y:auto;border-radius:28px 28px 0 0;padding:26px 20px calc(40px + env(safe-area-inset-bottom));animation:up .35s ease-out;-webkit-overflow-scrolling:touch}
+.panel::before{content:"";position:absolute;left:14px;right:14px;top:10px;height:0;border-top:2px dashed var(--thread-soft)}
+.panel.final{background:linear-gradient(180deg,var(--sky-soft),var(--paper) 320px)}
+@media(min-width:700px){#sheet{align-items:center}.panel{border-radius:28px;max-height:90vh}}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+@keyframes fade{from{opacity:0}}
+.close{position:sticky;top:0;float:right;margin:-8px -4px 0 0;width:44px;height:44px;border-radius:50%;border:0;background:var(--card);box-shadow:var(--shadow);font:400 20px/1 var(--sans);z-index:5}
+.slabel{font:600 12px/1.3 var(--sans);color:var(--thread);text-transform:uppercase;letter-spacing:.14em;margin-top:6px}
+.panel h2{font:700 44px/1 var(--hand);margin:8px 0 12px}
+.teaser{font-size:18px}
+.wings{display:block;width:190px;margin:4px auto -6px}
+
+/* конвертик */
+.env-stage{text-align:center;padding:10px 0 4px}
+.env{position:relative;width:min(290px,78vw);aspect-ratio:1.45;margin:22px auto 6px;perspective:900px}
+.env-back{position:absolute;inset:0;background:#d9b98a;border-radius:12px;box-shadow:var(--shadow)}
+.env-paper{position:absolute;left:7%;right:7%;top:7%;height:84%;background:var(--card) repeating-linear-gradient(transparent 0 15px,#e7dccb 15px 16px);border-radius:6px;z-index:1;transition:transform .7s .55s ease-out;display:flex;align-items:flex-start;justify-content:center;padding-top:10%;font:700 24px/1 var(--hand);color:var(--thread)}
+.env-front{position:absolute;inset:0;border-radius:12px;background:#e8cfa6;clip-path:polygon(0 0,50% 56%,100% 0,100% 100%,0 100%);z-index:2}
+.env-front::after{content:"";position:absolute;inset:9px;border:2px dashed rgba(181,69,47,.35);border-radius:8px}
+.env-flap{position:absolute;left:0;right:0;top:0;height:62%;background:#cfab78;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .6s .2s,z-index 0s .5s;z-index:3;border-radius:12px 12px 0 0}
+.seal{position:absolute;left:50%;top:62%;transform:translate(-50%,-50%);z-index:4;width:66px;height:66px;border:0;background:none;padding:0;animation:pulse 2s ease-in-out infinite}
+.seal svg{width:100%;height:100%;filter:drop-shadow(0 3px 4px rgba(0,0,0,.2))}
+@keyframes pulse{50%{transform:translate(-50%,-50%) scale(1.08)}}
+.env.open .seal{animation:pop .55s forwards}
+@keyframes pop{to{transform:translate(-50%,-50%) translate(60px,170px) rotate(260deg);opacity:0}}
+.env.open .env-flap{transform:rotateX(180deg);z-index:0}
+.env.open .env-paper{transform:translateY(-48%)}
+.env-hint{font:500 26px/1.2 var(--hand);color:var(--muted);margin:14px 0 0}
+
+/* загадка */
+.quiz{position:relative;background:var(--card) repeating-linear-gradient(transparent 0 35px,#ece2d3 35px 36px);border-radius:6px 22px 6px 22px;padding:22px 18px 18px;margin-top:20px;box-shadow:var(--shadow);transform:rotate(-.4deg)}
+.quiz::before{content:"";position:absolute;top:-11px;left:50%;width:84px;height:24px;margin-left:-42px;background:rgba(214,161,63,.35);transform:rotate(-3deg)}
+.quiz .qh{font:700 26px/1 var(--hand);color:var(--thread);margin-bottom:6px}
+.quiz .q{font-size:20px;margin-bottom:16px}
+.quiz form{display:flex;gap:10px;flex-wrap:wrap}
+.quiz input{flex:1 1 180px;min-width:0;font:600 30px/1.1 var(--hand);color:var(--letter-ink);padding:6px 4px;border:0;border-bottom:2px solid var(--thread-soft);background:transparent;border-radius:0}
+.quiz input:focus{outline:none;border-bottom-color:var(--thread)}
+.quiz input::placeholder{color:#c4b3a2}
+.btn-main{border:0;background:var(--thread);color:#fff;font:600 17px/1 var(--sans);border-radius:999px;padding:14px 22px;box-shadow:0 4px 0 #8e3322}
+.btn-main:active{transform:translateY(3px);box-shadow:0 1px 0 #8e3322}
+.btn-ghost{border:0;background:none;color:var(--thread);font:600 15px/1 var(--sans);padding:12px 0 4px}
+.msg{min-height:30px;margin-top:10px;color:var(--thread);font:700 24px/1.2 var(--hand)}
+.hint{background:#fff4d6;border-radius:12px;padding:10px 14px;margin-top:8px;font-size:17px}
+.shake{animation:shake .45s}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.gift{display:block;width:100%;margin-top:24px;padding:20px;font-size:19px}
+
+/* сюрприз */
+.reveal{animation:up .6s ease-out}
+.sec{position:relative;background:var(--card);border-radius:18px;padding:18px 18px 16px;margin-top:18px;box-shadow:var(--shadow);outline:2px dashed var(--line);outline-offset:-8px}
+.sec h3{margin:0 0 6px;font:700 28px/1 var(--hand);color:var(--thread)}
+.sec.where{background:#fff2d2;outline-color:rgba(214,161,63,.55)}
+.sec.where h3{color:#a8721a}
+.sec.memory{background:#f3f7f1;outline-color:rgba(127,154,122,.45)}
+.sec.memory h3{color:var(--sage)}
+.sec.letter{
+  outline:none;border-radius:4px;transform:rotate(.4deg);padding:26px 18px 20px 46px;
+  font:500 25px/34px var(--hand);color:var(--letter-ink);
+  background:
+    linear-gradient(90deg,transparent 32px,rgba(220,120,110,.5) 32px 34px,transparent 34px),
+    repeating-linear-gradient(transparent 0 33px,#d7e0ea 33px 34px),
+    #fffdf7;
+  background-position:0 0,0 22px,0 0;
+}
+.sec.letter .sign{text-align:right;margin-top:12px}
+.photos{display:flex;flex-wrap:wrap;gap:18px 14px;justify-content:center;margin-top:24px}
+.ph{position:relative;background:#fff;padding:8px 8px 30px;box-shadow:0 8px 18px rgba(60,40,20,.2);width:calc(50% - 8px);transform:rotate(var(--r));cursor:zoom-in}
+.ph.one{width:86%}
+.ph::before{content:"";position:absolute;top:-11px;left:50%;width:64px;height:22px;margin-left:-32px;background:rgba(240,225,190,.8);transform:rotate(-4deg);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.ph img{display:block;width:100%;aspect-ratio:1;object-fit:cover;background:var(--paper2)}
+.ph.one img{aspect-ratio:auto}
+.audio{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.audio h3{flex:1 0 100%}
+.play{width:58px;height:58px;border-radius:50%;border:0;background:var(--thread);color:#fff;font-size:22px;box-shadow:0 4px 0 #8e3322;flex:0 0 auto}
+.bar{flex:1;height:8px;border-radius:8px;background:var(--paper2);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--thread);border-radius:8px}
+#lb{position:fixed;inset:0;z-index:70;background:rgba(30,20,12,.92);display:flex;align-items:center;justify-content:center;padding:16px}
+#lb[hidden]{display:none}
+#lb img{max-width:100%;max-height:100%;border:8px solid #fff;border-bottom-width:28px}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(160%);background:var(--ink);color:#fff;padding:14px 20px;border-radius:16px;max-width:calc(100% - 32px);text-align:center;transition:transform .3s;z-index:80;font:500 16px/1.4 var(--sans)}
+#toast.show{transform:translateX(-50%) translateY(0)}
+.cf{position:fixed;top:-24px;z-index:90;pointer-events:none;animation:fall linear forwards;line-height:1}
+@keyframes fall{to{transform:translateY(112vh) rotate(var(--rot))}}
+
+/* ---------- вход и редактор ---------- */
+.pin{max-width:340px;margin:80px auto;text-align:center;padding:0 16px}
+.pin h2{font:700 40px/1 var(--hand)}
+.pin input{width:100%;text-align:center;font:600 30px/1 var(--sans);letter-spacing:.3em;padding:12px;border-radius:14px;border:2px dashed var(--thread-soft);background:var(--card);margin:16px 0}
+#abar{position:sticky;top:0;z-index:40;background:#3b2a20;color:#fff;padding:8px 12px;display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;justify-content:center;font:500 14px/1.2 var(--sans)}
+#abar:empty{display:none}
+#abar button{border:0;border-radius:9px;padding:7px 10px;background:rgba(255,255,255,.13);color:#fff;font:500 14px/1.2 var(--sans)}
+#abar button.on{background:#fff;color:var(--ink)}
+#abar .primary{background:var(--thread)}
+#abar .primary.dirty::after{content:" ●";color:#ffd27a}
+#abar input{border:0;border-radius:8px;padding:5px 6px;font:500 14px/1.2 var(--sans);color:var(--ink);background:#fff}
+#abar .seg{display:flex;gap:3px}
+#abar .muted{opacity:.75;font-size:12px;flex-basis:100%;text-align:center}
+#abar .muted:empty{display:none}
+.ed{padding-top:18px;font-family:var(--sans);font-size:16px}
+.ed h3{font:700 28px/1 var(--hand);margin:0 0 4px;color:var(--thread)}
+.note{background:var(--card);border-radius:16px;padding:14px 16px;font-size:15px;outline:2px dashed var(--line);outline-offset:-6px}
+.edcard{background:var(--card);border-radius:16px;padding:14px 16px;margin-top:14px;box-shadow:0 2px 10px rgba(80,50,25,.06)}
+.edcard summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:6px 10px;align-items:baseline;flex-wrap:wrap}
+.edcard summary::-webkit-details-marker{display:none}
+.edcard summary::before{content:"▸";color:var(--thread)}
+.edcard[open] summary::before{content:"▾"}
+.edcard summary small{font-weight:normal;color:var(--muted)}
+.f{display:block;margin-top:12px;font-size:13px;color:var(--muted)}
+.f input:not([type=checkbox]),.f textarea{display:block;width:100%;margin-top:4px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:#fff;font:400 16px/1.45 var(--sans);color:var(--ink)}
+.f textarea{min-height:80px;resize:vertical}
+.f.chk{display:flex;gap:8px;align-items:center;color:var(--ink);font-size:15px}
+.f.memo textarea{background:#fff8d9;border-color:#f0dd8e}
+.todo{background:var(--todo)!important}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.thumbs{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.thumbs div{position:relative}
+.thumbs img{width:84px;height:84px;object-fit:cover;border-radius:10px;display:block}
+.thumbs button{position:absolute;top:-6px;right:-6px;width:26px;height:26px;border-radius:50%;border:0;background:var(--ink);color:#fff;font-size:13px;padding:0}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}
+.sbtn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:9px 14px;font:500 14px/1.2 var(--sans)}
+.sbtn.danger{color:#b3261e}
+label.sbtn input{display:none}
+
+/* ===== МАКЕТ 2: молочный фон + сказочная осенняя Москва по краям ===== */
+:root{
+  --paper:#f8ead6; --paper2:#efdfc6; --card:rgba(255,250,242,.86); --ink:#3a2a20; --muted:#8a7360;
+  --thread:#b0432d; --thread-soft:rgba(176,67,45,.35); --sage:#4f6b3a; --mustard:#d98a2b;
+  --sky:#3e6e74; --sky-soft:#e3eee9; --line:#ead8bf; --letter-ink:#2e4a6b;
+  --shadow:0 8px 24px rgba(90,55,25,.12);
+  --hand:"Baskerville","Baskervville","Libre Baskerville",Georgia,serif;
+  --serif:"Baskerville","Baskervville","Libre Baskerville",Georgia,serif;
+  --sans:"Inter",-apple-system,Segoe UI,Roboto,sans-serif;
+}
+html{background:#f8ead6}
+body{background:transparent;font-family:var(--sans);font-size:18px}
+#bgfix{position:fixed;inset:0;z-index:-1;background:#f8e9d4 url(fon.webp) center top/cover no-repeat}
+@media(min-aspect-ratio:3/4){#bgfix{background-size:auto 100%}}
+.wrap{max-width:560px;padding:0 22px 56px}
+.hero{padding:26px 0 8px}
+.hoop{width:auto;height:auto;margin:0 auto}
+.hoop img{display:block;width:min(240px,62vw);margin:0 auto;filter:drop-shadow(0 10px 14px rgba(90,55,25,.18))}
+.star{display:none}
+.kicker{font:500 14px/1.2 var(--sans);letter-spacing:.2em;color:var(--thread);margin-top:14px}
+.hero h1{font:400 clamp(46px,13vw,60px)/1.05 var(--hand);margin:10px 0 12px}
+.hero .sub{font:400 19px/1.5 var(--sans);font-style:normal;color:#6d5644;background:rgba(248,234,214,.75);border-radius:14px;padding:4px 8px}
+.cap{font:400 17px/1.35 var(--sans);display:inline-block;background:rgba(248,234,214,.85);border-radius:12px;padding:2px 10px}
+.day{outline:none;background:var(--card);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:1px solid rgba(176,67,45,.14);border-radius:18px;transform:none;box-shadow:var(--shadow)}
+.tag{border-right:1px solid var(--line)}
+.tag b{font:400 46px/0.95 var(--hand)}
+.tag span,.tag i{font-size:14px}
+.dstate{font-size:16px}
+.dlabel{font-size:13px}
+.dttl{font:400 27px/1.15 var(--hand)}
+.dlabel{font-family:var(--sans);font-weight:500}
+.day.locked{background:rgba(244,232,214,.82);box-shadow:none;border-color:rgba(138,115,96,.18)}
+.foot{font:italic 400 24px/1.3 var(--serif)}
+.foot small{font-size:13px}
+.teaser,.sec,.quiz .q{font-size:20px}
+.panel h2,.sec h3,.quiz .qh,.env-hint,.msg,.pin h2,.ed h3{font-family:var(--hand);font-weight:400}
+.sec.letter{font:italic 400 21px/34px var(--serif)}
+.quiz input{font:400 24px/1.1 var(--serif)}
+.sec{outline:none;border:1px solid var(--line)}
+
+
+/* --- вариант плашек 1: плотная молочная бумага; закрытые серые, открытые чёрные --- */
+.kicker{display:inline-block;background:#fffaf1;border-radius:999px;padding:6px 14px;box-shadow:0 4px 12px rgba(90,55,25,.15)}
+.hero .sub{background:#fffaf1;border-radius:18px;padding:14px 16px;box-shadow:0 6px 18px rgba(90,55,25,.18);color:#1f1a17}
+.cap{background:#fffaf1}
+.day{background:#fffaf1;-webkit-backdrop-filter:none;backdrop-filter:none;border:1px solid #ecd9bd;box-shadow:0 6px 18px rgba(90,55,25,.18)}
+.day .dttl,.day .tag b{color:#1f1a17}
+.day .dlabel{color:#b0432d}
+.day .dstate,.day .tag span,.day .tag i{color:#4a4440}
+.tag{border-right-color:#ecd9bd}
+.day.locked{background:#ebe8e3;border-color:#d9d5ce;box-shadow:0 4px 12px rgba(60,55,50,.12)}
+.day.locked .dttl,.day.locked .tag b,.day.locked .dlabel,.day.locked .dstate,.day.locked .tag span,.day.locked .tag i{color:#8f8a84}
+.day.locked .tag{border-right-color:#d9d5ce}
+.day.locked .ico{filter:grayscale(1);opacity:.6}
+.footwrap{text-align:center;margin-top:40px}
+.foot{display:inline-block;margin:0;background:#fffaf1;border-radius:999px;padding:10px 22px;box-shadow:0 4px 12px rgba(90,55,25,.15);color:#1f1a17;font:400 24px/1.3 var(--hand)}
+
+
+/* ===== МАКЕТ 3: экран дня, окошки, дневник ===== */
+.buttons::before,.buttons::after{display:none}
+.buttons{gap:12px;margin-top:20px}
+.win{width:38px;height:38px}
+.win.new{animation:glow 2.2s ease-in-out infinite}
+@keyframes glow{50%{filter:drop-shadow(0 0 6px rgba(242,180,60,.9))}}
+.cap{margin-top:10px;color:#1f1a17;box-shadow:0 4px 12px rgba(90,55,25,.15);padding:6px 14px}
+
+#sheet{background:none;align-items:stretch;animation:fade .25s}
+#sheet::before{content:"";position:fixed;inset:0;background:#f8e9d4 url(fon.webp) center top/cover no-repeat;z-index:-1}
+@media(min-aspect-ratio:3/4){#sheet::before{background-size:auto 100%}}
+.panel,.panel.final{background:none;max-width:560px;max-height:none;height:100%;border-radius:0;padding:14px 22px calc(48px + env(safe-area-inset-bottom));box-shadow:none}
+.panel::before{display:none}
+@media(min-width:700px){#sheet{align-items:stretch}.panel{border-radius:0;max-height:none}}
+.dtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.back{border:0;background:#fffaf1;border-radius:999px;padding:11px 18px;box-shadow:0 4px 12px rgba(90,55,25,.15);font:500 17px/1 var(--sans)}
+.dtop img{width:62px;filter:drop-shadow(0 6px 8px rgba(90,55,25,.18))}
+.close{display:none}
+.pl{background:#fffaf1;border:1px solid #ecd9bd;border-radius:18px;box-shadow:0 6px 18px rgba(90,55,25,.18);padding:18px;margin-top:18px;color:#1f1a17;font:400 19px/1.55 var(--sans)}
+.pl h3{font:400 28px/1.15 var(--hand);margin:0 0 8px;color:#1f1a17}
+.dhead{text-align:center}
+.dhead .slabel{margin:0;color:#b0432d;font-size:13px;font-weight:500}
+.dhead h2{font:400 42px/1.08 var(--hand);margin:6px 0 0;color:#1f1a17}
+.wings{margin:0 auto 6px;width:170px}
+
+.env-back{background:#e9d6b8;border-radius:12px}
+.env-paper{background:#fffaf1;font:italic 400 24px/1 var(--serif);color:#b0432d}
+.env-front{background:#f3e4cb}
+.env-front::after{display:none}
+.env-flap{background:#e2c9a2}
+.seal{width:72px;height:72px}
+.env.open .seal{animation:pop2 .55s forwards}
+@keyframes pop2{to{transform:translate(-50%,-50%) translate(40px,150px) rotate(200deg);opacity:0}}
+.env-hint{display:inline-block;background:#fffaf1;border-radius:999px;padding:9px 18px;box-shadow:0 4px 12px rgba(90,55,25,.15);font:400 18px/1.35 var(--sans);color:#1f1a17;margin-top:16px}
+
+.quiz{background:#fffaf1;border:1px solid #ecd9bd;border-radius:18px;transform:none;box-shadow:0 6px 18px rgba(90,55,25,.18);padding:18px}
+.quiz::before{display:none}
+.quiz .qh{font:500 13px/1.3 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#b0432d}
+.quiz .q{font-size:21px;margin:8px 0 6px;color:#1f1a17}
+.quiz form{display:block}
+.quiz input{width:100%;font:400 26px/1.2 var(--serif);color:#1f1a17;border-bottom:2px solid rgba(176,67,45,.4);margin:4px 0 16px;padding:8px 2px}
+.btn-main{width:100%;background:#b0432d;font-size:18px;padding:17px 22px;box-shadow:0 4px 0 #7f2e1e}
+.btn-main:active{box-shadow:0 1px 0 #7f2e1e}
+.btn-ghost{color:#b0432d;font:500 17px/1 var(--sans)}
+.msg{font:italic 400 22px/1.3 var(--serif);color:#b0432d;min-height:0}
+.hint{background:#f6efe3}
+.gift{margin-top:18px}
+.teaser{margin:0}
+
+.sec{background:#fffaf1;border:1px solid #ecd9bd;outline:none;box-shadow:0 6px 18px rgba(90,55,25,.18);color:#1f1a17;font-size:19px}
+.sec h3{color:#1f1a17;font-size:28px;margin-bottom:8px}
+.sec.memory{background:#fbf6ec;outline:none}
+.sec.memory h3{color:#1f1a17}
+.sec.where{background:#fff4dc;border-color:#efd9a8;outline:none}
+.sec.where h3{color:#1f1a17}
+.sec.letter{background:#fffdf8;transform:none;border-radius:18px;padding:24px 22px;font:italic 400 21px/1.6 var(--serif);color:#1f1a17}
+.sec .photos{margin:18px 0 6px}
+.ph img{aspect-ratio:auto;max-height:420px;object-fit:cover}
+.ph:not(.one) img{aspect-ratio:1}
+.play{background:#b0432d;box-shadow:0 4px 0 #7f2e1e}
+.bar i{background:#b0432d}
+.audio .stub{flex:1;color:#8f8a84;font-size:16px}
+
+.evs{list-style:none;margin:6px 0 0;padding:0}
+.evs li{padding:14px 0;border-top:1px solid #ecd9bd}
+.evs li:first-child{border-top:0;padding-top:2px}
+.evs .t{font:400 22px/1.2 var(--hand);color:#b0432d;display:block;margin-bottom:2px}
+.mine{margin-top:8px}
+.write{border:0;background:none;color:#b0432d;font:500 16px/1.2 var(--sans);padding:6px 0 0}
+.mine textarea,.diary textarea{width:100%;min-height:70px;font:400 18px/1.5 var(--sans);color:#1f1a17;background:#fff;border:1px solid #ecd9bd;border-radius:14px;padding:12px 14px;resize:vertical}
+.diary textarea{min-height:100px;font-size:19px}
+.addph{display:inline-flex;align-items:center;gap:8px;border:1px solid #ecd9bd;background:#fff;border-radius:999px;padding:10px 16px;font:500 16px/1 var(--sans);margin-top:10px;cursor:pointer}
+.addph input{display:none}
+.mthumbs{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.mthumbs span{position:relative}
+.mthumbs img{width:84px;height:84px;object-fit:cover;border-radius:10px;border:4px solid #fff;box-shadow:0 3px 8px rgba(60,40,20,.2);display:block}
+.mthumbs button{position:absolute;top:-6px;right:-6px;width:24px;height:24px;border-radius:50%;border:0;background:#1f1a17;color:#fff;font-size:12px;padding:0}
+.diary{background:#fbf6ec;border:1.5px dashed #d8bf98}
+.diary .sub2{margin:0 0 10px;color:#4a4440;font-size:17px}
+.savedm{font-size:15px;color:#4f6b3a;margin-top:8px;min-height:1em}
+.send{margin-top:16px}
+.done-pl{text-align:center;font:italic 400 22px/1.3 var(--serif)}
+
+#toast:not(.show){visibility:hidden;transition:transform .3s,visibility 0s .3s}
+.selfie{text-align:center}
+.selfie h3{margin-bottom:4px}
+.selfie .photos,.selfie-ph .ph{margin:16px auto 8px}
+.snap{display:block;margin-top:12px;cursor:pointer}
+.snap input{display:none}
+.evph{margin:12px 0 4px;cursor:zoom-in}
+.evph img{display:block;width:100%;border-radius:12px;border:1px solid #ecd9bd;box-shadow:0 4px 12px rgba(90,55,25,.12)}
+#demo{position:sticky;top:0;z-index:45;background:#3a2a20;color:#fff;font:500 13px/1.35 var(--sans);padding:8px 12px;text-align:center}
+#demo button{border:0;border-radius:8px;background:rgba(255,255,255,.18);color:#fff;font:500 13px/1 var(--sans);padding:6px 9px;margin:4px 2px 0}
+
+/* ===== Мой план (только редактор, хранится в браузере) ===== */
+.mp{padding-top:18px;color:#1f1a17;font:400 18px/1.5 var(--sans)}
+.mp-head{text-align:center}
+.mp-head h1{font:400 44px/1.05 var(--serif);margin:6px 0 10px;background:#fffaf1;display:inline-block;padding:6px 18px;border-radius:18px;box-shadow:0 6px 18px rgba(90,55,25,.18)}
+.mp-lock{background:#f3f7ef;border:1px solid #cfdcc4;border-radius:16px;padding:12px 14px;font-size:15px;line-height:1.45;color:#2f4a24;margin:8px 0 16px;text-align:left}
+.mp-days{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;scrollbar-width:none}
+.mp-days::-webkit-scrollbar{display:none}
+.mp-days button{flex:0 0 auto;border:1px solid #ecd9bd;background:#fffaf1;border-radius:16px;padding:8px 14px;text-align:center;box-shadow:0 4px 12px rgba(90,55,25,.14)}
+.mp-days button b{display:block;font:400 30px/1 var(--serif)}
+.mp-days button span{font-size:13px;color:#8a7360}
+.mp-days button.on{background:#b0432d;color:#fff;border-color:#b0432d}
+.mp-days button.on span{color:#ffe3da}
+.mp-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:8px 0 4px}
+.mp-title h2{font:400 28px/1.15 var(--serif);margin:0;background:#fffaf1;padding:6px 14px;border-radius:14px;box-shadow:0 4px 12px rgba(90,55,25,.14)}
+.mp-mode{border:0;background:#fffaf1;border-radius:999px;padding:10px 16px;font:500 15px/1 var(--sans);box-shadow:0 4px 12px rgba(90,55,25,.14);white-space:nowrap}
+.mp-mode.on{background:#3b2a20;color:#fff}
+.mp-sec{background:#fffaf1;border:1px solid #ecd9bd;border-radius:18px;box-shadow:0 6px 18px rgba(90,55,25,.18);padding:16px 16px 14px;margin-top:16px}
+.mp-sec h3{font:400 26px/1.15 var(--serif);margin:0 0 6px}
+.mp-steps{list-style:none;margin:0;padding:0}
+.mp-steps li{padding:14px 0;border-top:1px solid #ecd9bd;display:grid;grid-template-columns:62px 1fr;gap:4px 10px}
+.mp-steps li.mp-full{display:block}
+.mp-steps li:first-child{border-top:0;padding-top:4px}
+.mp-t{font:400 22px/1.2 var(--serif);color:#b0432d}
+.mp-w{font-size:19px;line-height:1.35}
+.mp-n{font-size:16px;color:#4a4440;margin-top:4px;white-space:pre-line}
+.mp-addr{font-size:15px;color:#8a7360;margin-top:4px}
+.mp-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.mp-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid #ecd9bd;background:#fff;border-radius:999px;padding:9px 14px;font:500 15px/1.15 var(--sans);text-decoration:none;color:#1f1a17;cursor:pointer}
+.mp-chip.map{background:#fff4dc;border-color:#efd9a8}
+.mp-chip input{display:none}
+.mp-tk{padding:12px 0;border-top:1px solid #ecd9bd}
+.mp-tk:first-of-type{border-top:0}
+.mp-tk b{font-weight:600}
+.mp-code{display:inline-block;margin-top:6px;font:600 16px/1 ui-monospace,Menlo,monospace;background:#f6efe3;border-radius:8px;padding:6px 8px;letter-spacing:.06em;user-select:all}
+.mp-thumbs{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.mp-thumbs span{position:relative}
+.mp-thumbs img{width:84px;height:84px;object-fit:cover;border-radius:10px;border:4px solid #fff;box-shadow:0 3px 8px rgba(60,40,20,.2);display:block;cursor:zoom-in}
+.mp-thumbs button{position:absolute;top:-6px;right:-6px;width:24px;height:24px;border-radius:50%;border:0;background:#1f1a17;color:#fff;font-size:12px;padding:0}
+.mp-ph{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid #ecd9bd;align-items:center}
+.mp-ph:first-of-type{border-top:0}
+.mp-todo label{display:flex;gap:12px;align-items:flex-start;padding:9px 0;font-size:18px;cursor:pointer}
+.mp-todo input{width:24px;height:24px;margin:2px 0 0;accent-color:#b0432d;flex:0 0 auto}
+.mp-todo input:checked+span{text-decoration:line-through;color:#a9a19a}
+.mp-free{white-space:pre-line;font-size:17px}
+.mp-add{display:inline-flex;align-items:center;gap:6px;border:1.5px dashed #d8bf98;background:none;border-radius:999px;padding:9px 16px;font:500 15px/1 var(--sans);margin-top:10px;color:#b0432d;cursor:pointer}
+.mp-add input{display:none}
+.mp-f{display:block;font-size:13px;color:#8a7360;margin-top:8px}
+.mp-f input,.mp-f textarea{display:block;width:100%;margin-top:3px;padding:10px 12px;border-radius:12px;border:1px solid #ecd9bd;background:#fff;font:400 17px/1.4 var(--sans);color:#1f1a17}
+.mp-f textarea{min-height:70px;resize:vertical}
+.mp-ed{background:#fbf6ec;border:1.5px dashed #d8bf98;border-radius:14px;padding:4px 12px 12px;margin:6px 0}
+.mp-two{display:grid;grid-template-columns:90px 1fr;gap:8px}
+.mp-del{border:0;background:none;color:#b3261e;font-size:14px;padding:8px 0 0}
+.mp-empty{color:#a9a19a;font-size:16px}
+.mp-backup{text-align:center;margin-top:24px;font-size:14px;color:#6d5644;background:rgba(255,250,241,.85);border-radius:16px;padding:10px}
+.mp-backup .mp-chip{margin:6px 4px 0}
+.mp-saved{font-size:14px;color:#4f6b3a;text-align:center;min-height:1.2em;margin-top:8px}
+
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="bgfix"></div>
+<div id="abar"></div>
+<div id="app" class="wrap"></div>
+<div id="sheet" hidden></div>
+<div id="lb" hidden></div>
+<div id="toast"></div>
+
+<script id="data" type="application/json">{"version": 20261112, "kicker": "12 — 16 ноября · Москва", "title": "Мамины дни", "subtitle": "Мам, это маленькая сказка на пять дней. Каждый день здесь будет открываться новый конвертик. Разгадаешь загадку — получишь сюрприз. Всё по-настоящему 💛", "signature": "Твоя дочка", "pin": "1212", "days": [{"id": "d1", "date": "2026-11-12", "time": "20:00", "label": "День первый", "title": "С приездом, мам!", "teaser": "Ну всё, ты приехала — значит, сказка официально началась ✨\nЦелый год не виделись… Впереди пять дней, пять конвертиков и пять сюрпризов. Но просто так они не открываются — у каждого своя загадка. Начнём с лёгкой 😉", "question": "Наш самый праздничный набор, которым ты радовала нас с сестрой: Биг Тейсти, картошка по-деревенски и … соус?", "answer": "сырный соус, сырный, сырного соуса, соус сырный, сырный соусик", "hint": "Без него картошка — не картошка 🧀", "plan": "Сегодня никуда не бежим. Закидываем вещи, я показываю тебе наш хостел и всё вокруг — теперь это наш дом на пять дней 🏠\nПотом через дорогу — в Макдональдс за нашим праздничным набором. Возвращаемся, пьём чай, а дальше — отдыхать или немножко пройтись по вечерней Москве.", "where": "", "memory": "Помнишь, как ты привозила нам с сестрой Макдональдс? Пакет шуршит — и сразу праздник.\nДаже когда было туго, ты всегда придумывала что-нибудь весёлое. Помнишь нашу сосисочную вечеринку? А как ты нажарила крылышки, а я одна съела целый тазик? 😄\nСегодня моя очередь устраивать праздник 🍟", "letter": "", "note": "Мама приезжает в 20:00, карточка откроется тоже в 20:00 — успеет разгадать по дороге. Макдональдс («Вкусно — и точка») через дорогу: проверь, есть ли там Биг Тейсти, картошка по-деревенски и сырный соус — если нет, поменяй загадку. Под подушку в хостеле — тёплые носки + записка от руки: «Теперь моя очередь греть тебе ноги».", "audio": "", "photos": ["foto/mcdonalds.jpg"], "final": false, "audioStub": false, "selfie": "Всё, ты приехала — сделайте фотку вместе 📸"}, {"id": "d2", "date": "2026-11-13", "time": "09:00", "label": "День второй", "title": "Поплывём!", "teaser": "Доброе утро, мам ☀️ Сегодня у нас путешествие. Не на электричке — но весело будет не меньше, обещаю.", "question": "На чём мы сегодня поплывём по Москве-реке? Он ходит по воде, а внутри у него тепло, даже в ноябре.", "answer": "теплоход, теплоходик, кораблик, корабль, пароход, катер, судно", "hint": "Первая половинка слова — «тепло» 🛳", "plan": "Теплоход от Филёвского парка до Москва-Сити 🛳\nПотом поднимаемся на смотровую площадку — смотреть на Москву сверху, как в сказке.\nА после Сити едем в GREMM — термы, бассейн и ужин ♨️", "where": "", "memory": "С тобой даже поездки на электричке были весёлыми. Помнишь 1 сентября во втором классе? Мы едем домой и всю дорогу дурачимся.\nТогда ты меня везла. Сегодня я тебя покатаю 😄", "letter": "", "note": "Целый день. Проверить, ходит ли речной трамвай от Филёвского парка в ноябре (если навигация закрыта — круглогодичные теплоходы). Выбрать смотровую в Сити и купить билеты. Добавить фото с электрички.", "audio": "", "photos": ["foto/elektrichka.jpg"], "final": false, "audioStub": false, "memoryTitle": "Плавки, ласты — и поплыли!"}, {"id": "d3", "date": "2026-11-14", "time": "09:00", "label": "День третий", "title": "Третий звонок", "teaser": "Сегодня наряжаемся, мам. Нас ждёт настоящий театр 🎭", "question": "Есть такая сказка: купец уезжает в дальние края, а младшая дочка просит привезти ей не наряды, а один-единственный цветок. А потом — чудище, заколдованный дворец и любовь.\nНазывается она «… цветочек». Какой?", "answer": "аленький, аленький цветочек, аленкий, аленький цветок", "hint": "Он красный — только по-старинному 🌺", "plan": "12:00 — «Аленький цветочек» на Симоновской сцене Театра Вахтангова 🎭\nПотом обедаем в пиццерии на Арбате, где я когда-то работала. Там очень вкусно — всё тебе покажу 🍕\nВечер — идём в кино 🍿", "where": "", "memory": "Вот эта фотка: ты когда-то привела меня на представление. Я уже и не помню, что мы смотрели, — помню только, что ты держала меня за руку.\nТогда ты открывала для меня мир. Сегодня мне хочется открыть кусочек мира для тебя.", "letter": "", "note": "Целый день. Вписать в план название спектакля и пиццерии. Добавить детское фото из театра. Если найдётся мамино фото — тоже сюда.", "audio": "", "photos": ["foto/teatr.jpg"], "final": false, "audioStub": false, "planPhotos": {"0": "foto/bilety.jpg"}}, {"id": "d4", "date": "2026-11-15", "time": "09:00", "label": "День четвёртый", "title": "Мама в кадре", "teaser": "Сегодня ты станешь главной героиней ✨ Добро пожаловать на съёмочную площадку 🎬", "question": "Вспомни мой выпускной в садике. Какой цветок я полезла срывать — и упустила шарик в небо?", "answer": "мышиный гиацинт, гиацинт, мускари, мышиный, мышиные гиацинты", "hint": "Синенький, весенний, а название немного мышиное 🐭", "plan": "Утро — твоё, у тебя свои дела.\n14:00 — встречаемся и едем ко мне в студию: ты — звезда, я — режиссёр 🎬\nСнимаем рилсы и просто разговариваем: о жизни, о детях, о том, что значит быть женщиной. Ничего не нужно готовить — будь собой, этого достаточно.", "where": "", "memory": "На выпускной ты накрутила мне кудри и взяла напрокат самое красивое платье — я была как принцесса. А по дороге полезла за мышиным гиацинтом и отпустила шарик в небо 🎈\nТогда ты наряжала меня. Сегодня я наряжаю тебя.", "letter": "", "note": "Первая половина дня у мамы занята (встреча). Впиши время, когда встречаетесь. Подготовить вопросы для съёмки. Добавить фото с выпускного.", "audio": "", "photos": ["foto/vypusknoy.jpg"], "final": false, "audioStub": false}, {"id": "d5", "date": "2026-11-16", "time": "09:00", "label": "День пятый", "title": "День ухода за собой", "teaser": "Последний конвертик, мам. В нём — мой подарок тебе на день рождения 🎁\nНадеюсь, мой подарок порадует тебя.", "question": "Их красят помадой, ими улыбаются и целуют. Сегодня ими займётся настоящий мастер. Что это?", "answer": "губы, губки, губа", "hint": "Ими ты целуешь меня в щёку 💋", "plan": "Утро — вместе и неспешно: завтракаем и идём в храм ⛪\n18:00 — косметолог: делаем тебе губы 💋\nА потом отправляю тебя к Лёше", "where": "Сегодня в 18:00 мы идём к косметологу — делаем тебе губы 💋\nС днём рождения, мам!", "memory": "Ты самая красивая мама и самая красивая женщина. Тогда, сейчас и всегда 💙", "letter": "Мам.\nЯ помню, как в холодной коммуналке ты ложилась рядом и грела мои ноги.\nПомню кекс из Ашана — или помидор, — которые ты приносила мне с работы. А уже взрослой я узнала, что это был твой обед. Ты отдавала мне свой обед, мам.\nПомню наши разговоры на кухне за чаем — о жизни, о самом главном. Ты никогда не давила, давала мне свободу и верила в меня. Было трудно, ты очень много работала — и всё равно находила силы на сказку.\nСпасибо тебе за тепло, за смех, за свободу и за веру в чудо.\nЯ очень тебя люблю. И очень по тебе скучаю.", "note": "Первая половина дня свободна, потом косметолог (18:00 или 18:30? проверь) и мама едет к брату. Храм — выбрать какой. Письмо — черновик, перепиши своими словами. Сюда особенно хорошо голосовое. Главный подарок — куда спрятать?", "audio": "", "photos": ["foto/kovyor.jpg"], "final": false, "audioStub": false, "whereTitle": "🎁 Мой подарок тебе", "memoryTitle": "Самая красивая"}]}</script>
+
+<script>
+(function(){
+'use strict';
+// Снимок исходной страницы — из него собирается «файл для мамы».
+const SHELL = '<!doctype html>\n' + document.documentElement.outerHTML;
+const EMBEDDED = JSON.parse(document.getElementById('data').textContent);
+
+const $ = s => document.querySelector(s);
+const app = $('#app'), sheet = $('#sheet'), abar = $('#abar'), lb = $('#lb'), toastEl = $('#toast');
+const MONTHS = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+const WD = ['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'];
+const MSK = 3 * 3600e3;
+
+const params = new URLSearchParams(location.search);
+const wantsAdmin = params.has('admin') || location.hash === '#admin';
+
+let content = clone(EMBEDDED);
+const DEMO = false; let demoTime = Date.parse('2026-11-13T10:00:00+03:00');
+let isAdmin = false, preview = false, myPlan = false, simTime = null, dirty = false;
+let openSheet = -1;
+const openEd = new Set();
+
+// ---------- рисунки ----------
+const SVG = {
+  hoop: `<svg viewBox="0 0 120 120" aria-hidden="true">
+    <circle cx="60" cy="62" r="50" fill="#fffaf2" stroke="#c99a5b" stroke-width="7"/>
+    <circle cx="60" cy="62" r="43" fill="none" stroke="#e6c896" stroke-width="2"/>
+    <rect x="52" y="4" width="16" height="12" rx="3" fill="#c99a5b"/><circle cx="60" cy="10" r="2.5" fill="#fffaf2"/>
+    <path class="heart" d="M60 86C34 68 38 44 51 45c5 .4 8 4.5 9 8 1-3.5 4-7.6 9-8 13-1 17 23-9 41z" fill="none" stroke="#b5452f" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M78 40 L104 14" stroke="#9a9aa0" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="102" cy="16" rx="1.3" ry="2.6" transform="rotate(45 102 16)" fill="#fffaf2" stroke="#9a9aa0"/>
+    <path d="M102 16c10 6 6 22-6 26" fill="none" stroke="#b5452f" stroke-width="1.6" stroke-linecap="round"/></svg>`,
+  pug(st, final){
+    const fill = st === 'locked' ? '#e3d6c4' : (final ? '#8fc6be' : (st === 'done' ? '#c9573f' : '#e5b453'));
+    const rim = st === 'locked' ? '#cbbba7' : 'rgba(0,0,0,.18)';
+    const x = st === 'done' ? `<path d="M9.6 9.6l4.8 4.8M14.4 9.6l-4.8 4.8" stroke="#fff7ea" stroke-width="1.5" stroke-linecap="round"/>` : '';
+    return `<svg class="pug ${st}" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="${fill}" stroke="${rim}"/><circle cx="12" cy="12" r="7" fill="none" stroke="rgba(0,0,0,.12)"/>
+      <circle cx="9.6" cy="9.6" r="1.25" fill="#f6eee2"/><circle cx="14.4" cy="9.6" r="1.25" fill="#f6eee2"/><circle cx="9.6" cy="14.4" r="1.25" fill="#f6eee2"/><circle cx="14.4" cy="14.4" r="1.25" fill="#f6eee2"/>${x}</svg>`;
+  },
+  env: `<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="10" width="30" height="21" rx="3" fill="#efe1c8" stroke="#a88d6c" stroke-width="1.6"/><path d="M6.5 11.5 20 22l13.5-10.5" fill="none" stroke="#a88d6c" stroke-width="1.6"/><circle cx="20" cy="22" r="4" fill="#cbbba7"/><path d="M18.5 20.5l3 3M21.5 20.5l-3 3" stroke="#8b7563" stroke-width="1"/></svg>`,
+  gift: `<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="7" y="17" width="26" height="17" rx="2.5" fill="#b5452f"/><rect x="5" y="12" width="30" height="7" rx="2.5" fill="#c9573f"/><rect x="18" y="12" width="4" height="22" fill="#e5b453"/><path d="M20 12c-3-7-11-6-8.5-1.3C13 13 17.5 12 20 12zm0 0c3-7 11-6 8.5-1.3C27 13 22.5 12 20 12z" fill="#e5b453"/></svg>`,
+  heart: `<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 34C7 25 4.5 16 9.5 11.5c4-3.4 8.5-1.3 10.5 2.3 2-3.6 6.5-5.7 10.5-2.3C35.5 16 33 25 20 34z" fill="#f4d9cf" stroke="#b5452f" stroke-width="2" stroke-dasharray="3.5 2.5" stroke-linecap="round"/></svg>`,
+  heartSky: `<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 34C7 25 4.5 16 9.5 11.5c4-3.4 8.5-1.3 10.5 2.3 2-3.6 6.5-5.7 10.5-2.3C35.5 16 33 25 20 34z" fill="#d8eeea" stroke="#5f9f97" stroke-width="2" stroke-dasharray="3.5 2.5" stroke-linecap="round"/></svg>`,
+  seal: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.5" fill="#c9573f" stroke="#8e3322" stroke-width=".6"/><circle cx="12" cy="12" r="7" fill="none" stroke="rgba(0,0,0,.18)"/>
+    <circle cx="9.6" cy="9.6" r="1.2" fill="#f6eee2"/><circle cx="14.4" cy="9.6" r="1.2" fill="#f6eee2"/><circle cx="9.6" cy="14.4" r="1.2" fill="#f6eee2"/><circle cx="14.4" cy="14.4" r="1.2" fill="#f6eee2"/>
+    <path d="M9.6 9.6l4.8 4.8M14.4 9.6l-4.8 4.8" stroke="#fff3df" stroke-width="1.1" stroke-linecap="round"/></svg>`,
+  win(st){
+    const on = st === 'done', nw = st === 'new';
+    const wall = st === 'locked' ? '#e4e0da' : '#f3e4cb', line = st === 'locked' ? '#b5afa7' : '#8a6a4a';
+    const glass = on ? '#f2b43c' : nw ? '#f7d58a' : '#9a958e';
+    return `<svg class="win ${st}" viewBox="0 0 40 40" aria-hidden="true"><path d="M6 18 20 6l14 12v16H6z" fill="${wall}" stroke="${line}" stroke-width="1.6" stroke-linejoin="round"/><rect x="13" y="19" width="14" height="12" rx="1.5" fill="${glass}"/><path d="M20 19v12M13 25h14" stroke="${line}" stroke-width="1.3"/>${on ? '<circle cx="20" cy="25" r="11" fill="#f2b43c" opacity=".18"/>' : ''}</svg>`;
+  },
+  seal2: `<svg viewBox="0 0 60 60"><path d="M30 3c4 0 6 3 9 4s7 0 9 3 1 6 3 9 4 5 4 9-3 6-4 9 0 7-3 9-6 1-9 3-5 4-9 4-6-3-9-4-7 0-9-3-1-6-3-9-4-5-4-9 3-6 4-9 0-7 3-9 6-1 9-3 5-4 9-4z" fill="#a63a26"/><circle cx="30" cy="30" r="17" fill="#b9472f" stroke="#86291a" stroke-width="1.2"/><path d="M30 40c-9-6-11-11-8.5-14 2.2-2.4 6-1.6 8.5 1.4 2.5-3 6.3-3.8 8.5-1.4 2.5 3 .5 8-8.5 14z" fill="#e9a48f"/></svg>`,
+  wings(){
+    const f = [[0,36],[-17,32],[-34,27],[-51,21]];
+    const half = f.map(([a,l]) => `<ellipse cx="${92-l}" cy="44" rx="${l}" ry="7.5" transform="rotate(${a} 92 44)"/>`).join('');
+    return `<svg class="wings" viewBox="0 0 200 70" aria-hidden="true"><g fill="#d8eeea" stroke="#6fb0a8" stroke-width="1.3" stroke-dasharray="3 2">${half}</g>
+      <g fill="#d8eeea" stroke="#6fb0a8" stroke-width="1.3" stroke-dasharray="3 2" transform="translate(200 0) scale(-1 1)">${half}</g>
+      <path d="M100 58c-9-6-11-12-7.5-15 2.6-2.2 5.6-.8 7.5 1.6 1.9-2.4 4.9-3.8 7.5-1.6 3.5 3-1.5 9-7.5 15z" fill="#b5452f"/></svg>`;
+  }
+};
+
+// ---------- утилиты ----------
+function clone(o){ return JSON.parse(JSON.stringify(o)); }
+function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function txt(s){ return esc(s).replace(/\n/g,'<br>'); }
+function norm(s){ return String(s || '').toLowerCase().replace(/ё/g,'е').replace(/[^a-zа-я0-9]/g,''); }
+function answers(d){ return String(d.answer || '').split(/[,;\n]/).map(norm).filter(Boolean); }
+function hasQuiz(d){ return !!(d.question && d.question.trim() && answers(d).length); }
+function pad(n){ return String(n).padStart(2,'0'); }
+function now(){ if (DEMO && !isAdmin) return demoTime; return (isAdmin && simTime != null) ? simTime : Date.now(); }
+function unlockAt(d){ const t = Date.parse(`${d.date}T${d.time || '00:00'}:00+03:00`); return isNaN(t) ? Infinity : t; }
+function msk(ts){ return new Date(ts + MSK); }
+function dparts(d){ const x = msk(Date.parse(d.date + 'T12:00:00+03:00')); return isNaN(x) ? {day:'?',mon:'',wd:''} : {day:x.getUTCDate(), mon:MONTHS[x.getUTCMonth()], wd:WD[x.getUTCDay()]}; }
+function fmt(ts){ if(!isFinite(ts)) return 'позже'; const x = msk(ts); return `${x.getUTCDate()} ${MONTHS[x.getUTCMonth()]} в ${x.getUTCHours()}:${pad(x.getUTCMinutes())}`; }
+function left(ms){
+  const m = Math.ceil(ms/60000), d = Math.floor(m/1440), h = Math.floor((m%1440)/60), mm = m%60;
+  if (d >= 1) return `откроется через ${d}\u00a0дн.\u00a0${h}\u00a0ч`;
+  if (h >= 1) return `откроется через ${h}\u00a0ч\u00a0${mm}\u00a0мин`;
+  return `откроется через ${Math.max(mm,1)} мин`;
+}
+function toast(t){ toastEl.textContent = t; toastEl.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(()=>toastEl.classList.remove('show'), 3400); }
+function rot(i){ return [-0.7, 0.6, -0.4, 0.8, -0.6][i % 5]; }
+
+// ---------- прогресс (на устройстве) ----------
+function progKey(){ return DEMO ? 'mama-progress-demo' : isAdmin ? 'mama-progress-preview' : 'mama-progress'; }
+function loadProg(){ try { const p = JSON.parse(localStorage.getItem(progKey())) || {}; p.solved = p.solved || {}; p.unsealed = p.unsealed || {}; return p; } catch(e){ return {solved:{}, unsealed:{}}; } }
+function saveProg(p){ try { localStorage.setItem(progKey(), JSON.stringify(p)); } catch(e){} }
+function status(d, p){ if (now() < unlockAt(d)) return 'locked'; return p.solved[d.id] ? 'done' : 'new'; }
+
+// ---------- черновик (IndexedDB) ----------
+const store = {
+  db: null,
+  open(){ return this.db || (this.db = new Promise((res, rej) => { const r = indexedDB.open('mama-plan', 1); r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); })); },
+  async get(k){ const db = await this.open(); return new Promise((res, rej) => { const q = db.transaction('kv').objectStore('kv').get(k); q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error); }); },
+  async set(k, v){ const db = await this.open(); return new Promise((res, rej) => { const tx = db.transaction('kv','readwrite'); tx.objectStore('kv').put(v, k); tx.oncomplete = () => res(); tx.onerror = () => rej(tx.error); }); }
+};
+let saveT;
+function saveDraft(){
+  dirty = true; paintSaved('сохраняю…');
+  clearTimeout(saveT);
+  saveT = setTimeout(async () => {
+    try { await store.set('draft', {content, dirty}); paintSaved('черновик сохранён ✓'); }
+    catch(e){ paintSaved('⚠️ черновик не сохраняется — не закрывай вкладку, пока не сохранишь файл'); }
+  }, 400);
+}
+function paintSaved(t){ const el = $('#savedst'); if (el) el.textContent = t; const b = $('[data-export]'); if (b) b.classList.toggle('dirty', dirty); }
+
+// ---------- мамин режим ----------
+function renderMom(){
+  const p = loadProg(), days = content.days;
+  const done = days.filter(d => p.solved[d.id]).length;
+  const stars = [[14,6],[84,9],[24,20],[76,22],[8,14],[92,17]].map(([x,y],k) => `<span class="star" style="left:${x}%;top:${y}%;animation-delay:${k*0.5}s">✦</span>`).join('');
+  app.innerHTML = `
+    <header class="hero">${stars}
+      <div class="hoop"><img src="kukla.webp" alt=""></div>
+      <div class="kicker">${esc(content.kicker)}</div>
+      <h1>${esc(content.title)}</h1>
+      <p class="sub">${txt(content.subtitle)}</p>
+      <div class="buttons">${days.map(d => SVG.win(status(d,p))).join('')}</div>
+      <div class="cap">${done ? `зажглось окошек: ${done} из ${days.length}` : 'каждый день зажигается новое окошко'}</div>
+    </header>
+    <main class="days">${days.map((d,i) => card(d,i,p)).join('')}</main>
+    <div class="footwrap"><p class="foot">С любовью, дочка</p></div>`;
+}
+function card(d, i, p){
+  const st = status(d, p), dp = dparts(d);
+  const state = st === 'locked' ? left(unlockAt(d) - now()) : st === 'new' ? 'Конвертик ждёт — открой!' : 'Пройдено ♥';
+  const ico = st === 'locked' ? SVG.env : st === 'new' ? SVG.gift : (d.final ? SVG.heartSky : SVG.heart);
+  return `<button class="day ${st} ${d.final ? 'final' : ''}" style="--r:${rot(i)}deg" data-open="${i}">
+    <div class="tag"><b>${dp.day}</b><span>${dp.mon}</span><i>${dp.wd}</i></div>
+    <div class="dbody"><div class="dlabel">${esc(d.label)}</div>
+      <div class="dttl">${st === 'locked' ? 'Пока запечатано…' : esc(d.title)}</div>
+      <div class="dstate">${state}</div></div>
+    <div class="ico">${ico}</div></button>`;
+}
+function openDay(i, force){
+  const d = content.days[i]; if (!d) return;
+  if (!force && !DEMO && now() < unlockAt(d)) { toast(`Этот конвертик откроется ${fmt(unlockAt(d))} ✨ Чуть-чуть терпения!`); return; }
+  openSheet = i; renderSheet(false);
+  sheet.hidden = false; document.body.classList.add('noscroll');
+  sheet.firstElementChild && (sheet.firstElementChild.scrollTop = 0);
+}
+function closeSheet(){ stopAudio(); sheet.hidden = true; sheet.innerHTML = ''; openSheet = -1; document.body.classList.remove('noscroll'); render(); }
+function renderSheet(justSolved){
+  const d = content.days[openSheet], p = loadProg(), dp = dparts(d);
+  const head = `<div class="dtop"><button class="back" data-close>← Все дни</button><img src="kukla.webp" alt=""></div>
+    <div class="pl dhead">${d.final ? SVG.wings() : ''}<div class="slabel">${esc(d.label)} · ${dp.day} ${dp.mon}</div><h2>${esc(d.title)}</h2></div>${d.selfie ? `<div class="pl selfie"><h3>${txt(d.selfie)}</h3><div class="selfie-ph" data-selfie></div><label class="btn-main snap">📷 Сфотографироваться<input type="file" accept="image/*" capture="user" data-sfile></label></div>` : ''}`;
+  if (!p.unsealed[d.id]) {
+    sheet.innerHTML = `<div class="panel">${head}
+      <div class="env-stage"><div class="env" id="env">
+        <div class="env-back"></div><div class="env-paper">${d.final ? 'самое главное' : 'для мамы'}</div><div class="env-front"></div><div class="env-flap"></div>
+        <button class="seal" data-seal aria-label="Открыть конвертик">${SVG.seal2}</button></div>
+        <p class="env-hint">Нажми на печать — и конвертик откроется</p></div></div>`;
+    return;
+  }
+  let body;
+  if (p.solved[d.id]) body = `<div class="${justSolved ? 'reveal' : ''}">${justSolved ? '<div class="pl done-pl">Угадала! 🎉</div>' : ''}${reveal(d)}</div>`;
+  else if (hasQuiz(d)) body = `<div class="quiz" style="margin-top:18px">
+      <div class="qh">Загадка</div>
+      <div class="q">${txt(d.question)}</div>
+      <form id="qf"><input id="qa" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="твой ответ…"><button class="btn-main">Проверить</button></form>
+      <div class="msg" id="qmsg"></div>
+      ${d.hint ? `<button class="btn-ghost" data-hint>💡 Нужна подсказка</button><div class="hint" id="hint" hidden>${txt(d.hint)}</div>` : ''}
+    </div>`;
+  else body = `<button class="btn-main gift" data-gift>${d.final ? '💝 Открыть' : '🎁 Открыть сюрприз'}</button>`;
+  sheet.innerHTML = `<div class="panel">${head}
+    ${d.teaser ? `<div class="pl"><p class="teaser">${txt(d.teaser)}</p></div>` : ''}
+    ${body}</div>`;
+  if (p.solved[d.id]) paintDiary(d);
+  if (d.selfie) paintSelfie(d);
+}
+function events(plan){
+  return String(plan || '').split('\n').map(x => x.trim()).filter(Boolean).map(line => {
+    const m = line.match(/^\[?(\d{1,2}:\d{2}|[Уу]тро|[Дд]нём|[Вв]ечер)\]?\s*[—–-]\s*(.*)$/);
+    return m ? {t: m[1], x: m[2]} : {t: '', x: line};
+  });
+}
+function reveal(d){
+  let h = '';
+  const ph = d.photos || [];
+  const phHtml = ph.length ? `<div class="photos">${ph.map((s,k) => `<div class="ph ${ph.length === 1 ? 'one' : ''}" style="--r:${rot(k+1)*2.5}deg" data-lb="${k}"><img src="${esc(s)}" alt="" loading="lazy"></div>`).join('')}</div>` : '';
+  if (d.memory || ph.length) h += `<div class="pl sec memory"><h3>${esc(d.memoryTitle || 'Помнишь?')}</h3>${txt(d.memory)}${phHtml}</div>`;
+  if (d.plan) h += `<div class="pl sec"><h3>План дня</h3><ol class="evs">${events(d.plan).map((e,k) => `<li>${e.t ? `<span class="t">${esc(e.t)}</span>` : ''}${txt(e.x)}${(d.planPhotos || {})[k] ? `<div class="evph" data-lb><img src="${esc(d.planPhotos[k])}" alt="" loading="lazy"></div>` : ''}<div class="mine" data-ev="${k}"></div></li>`).join('')}</ol></div>`;
+  if (d.where) h += `<div class="pl sec where"><h3>${esc(d.whereTitle || '🎁 Ищи сюрприз')}</h3>${txt(d.where)}</div>`;
+  if (d.audio) h += `<div class="pl sec audio"><h3>Послушай меня 🎧</h3><button class="play" data-play aria-label="Слушать">▶</button><div class="bar"><i id="abar-i"></i></div><audio id="aud" src="${esc(d.audio)}" preload="metadata"></audio></div>`;
+  else if (DEMO && d.audioStub) h += `<div class="pl sec audio"><h3>Послушай меня 🎧</h3><button class="play" aria-label="Слушать">▶</button><span class="stub">здесь будет твоё голосовое</span></div>`;
+  if (d.letter) h += `<div class="pl sec letter">${txt(d.letter)}<div class="sign">— ${esc(content.signature)} ♥</div></div>`;
+  h += `<div class="pl diary"><h3>Мой день</h3><p class="sub2">Напиши пару слов, как прошёл день, и добавь фото на память</p>
+    <textarea data-dtext placeholder="Сегодня…"></textarea><div class="mthumbs" data-dthumbs></div>
+    <label class="addph">📷 Добавить фото<input type="file" accept="image/*" multiple data-dfile></label>
+    <div class="savedm" data-saved></div>
+    <button class="btn-main send" data-send>💌 Отправить дочке</button></div>`;
+  return h;
+}
+
+// ---------- мамин дневник (хранится только на её телефоне) ----------
+let diary = null;
+async function loadDiary(){ if (diary) return diary; try { diary = (await store.get('diary')) || {}; } catch(_) { diary = {}; } return diary; }
+function dEntry(id){ diary[id] = diary[id] || {text:'', photos:[], ev:{}}; return diary[id]; }
+let dT; function saveDiary(){ const el = sheet.querySelector('[data-saved]'); clearTimeout(dT); dT = setTimeout(async () => { try { await store.set('diary', diary); if (el) el.textContent = 'Сохранено на этом телефоне ✓'; } catch(_) { if (el) el.textContent = '⚠️ Не сохранилось'; } }, 400); }
+function thumbs(arr, key){ return arr.map((s,k) => `<span><img src="${s}" alt=""><button data-delm="${key}:${k}" aria-label="Убрать">✕</button></span>`).join(''); }
+async function paintSelfie(d){
+  await loadDiary(); const e = dEntry(d.id), box = sheet.querySelector('[data-selfie]'); if (!box) return;
+  box.innerHTML = e.selfie ? `<div class="ph one" style="--r:-1.5deg"><img src="${e.selfie}" alt=""></div>` : '';
+  const b = sheet.querySelector('.snap'); if (b) b.firstChild.textContent = e.selfie ? '📷 Переснять ' : '📷 Сфотографироваться';
+}
+async function paintDiary(d){
+  await loadDiary(); const e = dEntry(d.id);
+  const ta = sheet.querySelector('[data-dtext]'); if (!ta) return;
+  ta.value = e.text; sheet.querySelector('[data-dthumbs]').innerHTML = thumbs(e.photos, 'day');
+  sheet.querySelectorAll('.mine').forEach(m => {
+    const k = m.dataset.ev, ev = e.ev[k];
+    m.innerHTML = (ev && (ev.text || ev.photos.length)) || m.dataset.openEv ? evForm(k, ev || {text:'',photos:[]}) : `<button class="write" data-wr="${k}">✎ Записать и добавить фото</button>`;
+  });
+}
+function evForm(k, ev){ return `<textarea data-etext="${k}" placeholder="Как это было…">${esc(ev.text)}</textarea><div class="mthumbs">${thumbs(ev.photos, k)}</div><label class="addph">📷 Фото<input type="file" accept="image/*" multiple data-efile="${k}"></label>`; }
+sheet.addEventListener('input', e => {
+  const d = content.days[openSheet]; if (!d || !diary) return; const en = dEntry(d.id);
+  if ('dtext' in e.target.dataset) { en.text = e.target.value; saveDiary(); }
+  const k = e.target.dataset.etext; if (k != null) { en.ev[k] = en.ev[k] || {text:'',photos:[]}; en.ev[k].text = e.target.value; saveDiary(); }
+});
+sheet.addEventListener('change', async e => {
+  const t = e.target, d = content.days[openSheet]; if (!d || t.type !== 'file') return;
+  await loadDiary(); const en = dEntry(d.id);
+  if ('sfile' in t.dataset) { const f = t.files[0]; if (f) { try { en.selfie = await shrink(f, 1400); saveDiary(); paintSelfie(d); } catch(_) { toast('Не получилось открыть фото'); } } return; }
+  const list = 'dfile' in t.dataset ? en.photos : ((en.ev[t.dataset.efile] = en.ev[t.dataset.efile] || {text:'',photos:[]}).photos);
+  for (const f of t.files) { try { list.push(await shrink(f, 1200)); } catch(_) { toast('Не получилось открыть фото'); } }
+  saveDiary(); paintDiary(d);
+});
+async function sendToDaughter(d){
+  await loadDiary(); const e = dEntry(d.id), evs = events(d.plan);
+  let text = `${d.label} · ${d.title}\n\n${e.text || ''}`;
+  evs.forEach((x,k) => { const ev = e.ev[k]; if (ev && ev.text) text += `\n\n${x.t ? x.t + ' — ' : ''}${x.x}\n${ev.text}`; });
+  const all = [...(e.selfie ? [e.selfie] : []), ...e.photos, ...Object.values(e.ev).flatMap(v => v.photos)];
+  const files = await Promise.all(all.map(async (u,i) => new File([await (await fetch(u)).blob()], `mama-${d.id}-${i+1}.jpg`, {type:'image/jpeg'})));
+  try {
+    if (files.length && navigator.canShare && navigator.canShare({files})) await navigator.share({text, files});
+    else if (navigator.share) await navigator.share({text});
+    else { await navigator.clipboard.writeText(text); toast('Текст скопирован — вставь его в сообщение дочке'); }
+  } catch(_){}
+}
+function stopAudio(){ const a = $('#aud'); if (a) a.pause(); }
+function solve(){
+  const d = content.days[openSheet], p = loadProg();
+  p.solved[d.id] = true; saveProg(p);
+  confetti(d.final ? 150 : 90, d.final);
+  renderSheet(true);
+}
+function unseal(){
+  const env = $('#env'); if (!env || env.classList.contains('open')) return;
+  env.classList.add('open');
+  const d = content.days[openSheet];
+  setTimeout(() => { const p = loadProg(); p.unsealed[d.id] = true; saveProg(p); renderSheet(false); }, 1500);
+}
+function confetti(n, final){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cols = final ? ['#6fb0a8','#8fc6be','#b5452f','#e5b453','#d8eeea'] : ['#b5452f','#e5b453','#e8b4a0','#7f9a7a','#c9573f','#6fb0a8'];
+  const shapes = ['♥','●','✦','●','♥'];
+  for (let i = 0; i < n; i++){
+    const s = document.createElement('span'); s.className = 'cf';
+    s.textContent = shapes[i % shapes.length];
+    s.style.left = Math.random()*100 + 'vw';
+    s.style.color = cols[i % cols.length];
+    s.style.fontSize = (10 + Math.random()*14) + 'px';
+    s.style.setProperty('--rot', (Math.random()*900 - 450) + 'deg');
+    s.style.animationDuration = (2.4 + Math.random()*2.2) + 's';
+    s.style.animationDelay = (Math.random()*0.5) + 's';
+    document.body.appendChild(s); setTimeout(() => s.remove(), 5400);
+  }
+}
+const WRONG = ['Почти! Попробуй ещё 🙂','Не-а 😄 Ещё попытка?','Тепло, но не то. Подумай ещё!','Хм, нет. Может, подсказка? 💡'];
+
+sheet.addEventListener('click', e => {
+  const t = e.target;
+  if (t === sheet || t.closest('[data-close]')) return closeSheet();
+  if (t.closest('[data-seal]')) return unseal();
+  if (t.closest('[data-gift]')) return solve();
+  const wr = t.closest('[data-wr]'); if (wr) { const m = wr.parentElement; m.dataset.openEv = '1'; m.innerHTML = evForm(wr.dataset.wr, {text:'',photos:[]}); m.querySelector('textarea').focus(); return; }
+  const dm = t.closest('[data-delm]'); if (dm) { const [key,k] = dm.dataset.delm.split(':'); const en = dEntry(content.days[openSheet].id); (key === 'day' ? en.photos : en.ev[key].photos).splice(+k,1); saveDiary(); paintDiary(content.days[openSheet]); return; }
+  if (t.closest('[data-send]')) return sendToDaughter(content.days[openSheet]);
+  if (t.closest('[data-hint]')) { $('#hint').hidden = false; t.closest('[data-hint]').remove(); return; }
+  if (t.closest('[data-play]')) {
+    const a = $('#aud'), b = t.closest('[data-play]');
+    if (a.paused) { a.play(); b.textContent = '❚❚'; } else { a.pause(); b.textContent = '▶'; }
+    a.ontimeupdate = () => { const i = $('#abar-i'); if (i && a.duration) i.style.width = (a.currentTime / a.duration * 100) + '%'; };
+    a.onended = () => { b.textContent = '▶'; };
+    return;
+  }
+  const ph = t.closest('[data-lb]'); if (ph) { lb.innerHTML = `<img src="${ph.querySelector('img').src}" alt="">`; lb.hidden = false; }
+});
+sheet.addEventListener('submit', e => {
+  e.preventDefault();
+  const d = content.days[openSheet], inp = $('#qa'), v = norm(inp.value);
+  if (!v) return;
+  if (answers(d).includes(v)) return solve();
+  const right = String(d.answer || '').split(/[,;\n]/)[0].trim();
+  $('#qmsg').innerHTML = `Почти правильно! 💛<br>Правильный ответ — «${esc(right.charAt(0).toUpperCase() + right.slice(1))}»<br><button class="btn-main" data-gift style="margin-top:14px">Дальше →</button>`;
+  $('#qf').style.display = 'none'; const hb = sheet.querySelector('[data-hint]'); if (hb) hb.remove();
+});
+lb.addEventListener('click', () => { lb.hidden = true; lb.innerHTML = ''; });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (!lb.hidden) lb.click(); else if (!sheet.hidden) closeSheet(); } });
+app.addEventListener('click', e => { const b = e.target.closest('[data-open]'); if (b && (!isAdmin || preview)) openDay(+b.dataset.open, false); });
+
+// ---------- вход в редактор ----------
+function renderPin(){
+  app.innerHTML = `<form class="pin" id="pinf"><h2>Для организатора</h2><p style="color:var(--muted);font-family:var(--sans)">Введи PIN-код</p>
+    <input id="pinv" inputmode="numeric" autocomplete="off" autofocus><button class="btn-main" style="width:100%">Войти</button>
+    <p><a href="${location.pathname}" style="color:var(--muted);font-family:var(--sans);font-size:14px">← обычный вид</a></p></form>`;
+  $('#pinf').addEventListener('submit', e => {
+    e.preventDefault();
+    if ($('#pinv').value.trim() === String(content.pin)) {
+      try { sessionStorage.setItem('mama-admin', '1'); } catch(_){}
+      enterAdmin();
+    } else { const f = $('#pinf'); f.classList.remove('shake'); void f.offsetWidth; f.classList.add('shake'); $('#pinv').value = ''; }
+  });
+}
+async function enterAdmin(){
+  isAdmin = true;
+  try {
+    const dr = await store.get('draft');
+    if (dr && dr.content) {
+      if (dr.content.version === EMBEDDED.version) { content = dr.content; dirty = !!dr.dirty; }
+      else if (dr.dirty && confirm('Нашлись несохранённые правки от другой версии файла. Загрузить их?')) { content = dr.content; dirty = true; }
+    }
+  } catch(e){}
+  renderBar(); render(); paintSaved(dirty ? 'есть правки, не сохранённые в файл' : '');
+}
+
+// ---------- панель редактора ----------
+function toLocalInput(ts){ return msk(ts).toISOString().slice(0,16); }
+function renderBar(){
+  abar.innerHTML = `
+    <div class="seg"><button data-mode="edit" class="${preview || myPlan ? '' : 'on'}">✏️ Редактор</button><button data-mode="plan" class="${myPlan ? 'on' : ''}">📋 Мой план</button><button data-mode="preview" class="${preview ? 'on' : ''}">👀 Глазами мамы</button></div>
+    <label>🕒 <input type="datetime-local" id="sim" value="${toLocalInput(now())}"></label>
+    <button data-now>${simTime == null ? 'сейчас ✓' : '↺ сейчас'}</button>
+    ${preview ? '<button data-resetprog>↺ прогресс</button>' : ''}
+    <button class="primary ${dirty ? 'dirty' : ''}" data-export>💾 Сохранить</button>
+    <span class="muted" id="savedst"></span>`;
+}
+abar.addEventListener('click', e => {
+  const t = e.target.closest('button'); if (!t) return;
+  if (t.dataset.mode) { preview = t.dataset.mode === 'preview'; myPlan = t.dataset.mode === 'plan'; if (!sheet.hidden) closeSheet(); renderBar(); render(); if (myPlan) scrollTo(0,0); }
+  else if ('now' in t.dataset) { simTime = null; renderBar(); render(); }
+  else if ('resetprog' in t.dataset) { saveProg({solved:{}, unsealed:{}}); render(); toast('Прогресс просмотра сброшен'); }
+  else if ('export' in t.dataset) exportFile();
+});
+abar.addEventListener('change', e => {
+  if (e.target.id === 'sim') { const t = Date.parse(e.target.value + ':00+03:00'); if (!isNaN(t)) { simTime = t; renderBar(); render(); } }
+});
+
+const FIELDS = [
+  ['label','Подпись карточки','text'],
+  ['title','Заголовок (виден после открытия)','text'],
+  ['teaser','Вступление — видно сразу после конвертика','area'],
+  ['question','Загадка (пусто — без загадки, просто кнопка «Открыть»)','area'],
+  ['answer','Правильные ответы через запятую (регистр и ё не важны)','text'],
+  ['hint','Подсказка','text'],
+  ['plan','План дня','area'],
+  ['where','🎁 Где искать сюрприз (физический)','text'],
+  ['memory','Воспоминание «Помнишь?»','area'],
+  ['letter','💌 Письмо от тебя (рукописным шрифтом)','area'],
+];
+function fieldHtml(i, k, label, type, val, cls){
+  const todo = /\[.*\]/.test(val || '') ? 'todo' : '';
+  const a = `data-i="${i}" data-k="${k}" class="${todo}"`;
+  if (type === 'area') return `<label class="f ${cls||''}">${label}<textarea ${a}>${esc(val)}</textarea></label>`;
+  if (type === 'check') return `<label class="f chk"><input type="checkbox" ${a} ${val ? 'checked' : ''}> ${label}</label>`;
+  return `<label class="f">${label}<input type="${type}" ${a} value="${esc(val)}"></label>`;
+}
+function renderEditor(){
+  const days = content.days;
+  app.innerHTML = `<div class="ed">
+    <div class="note">Здесь всё видно и всё можно менять. Правки сами сохраняются в этом браузере.
+      Поля с <span class="todo" style="padding:0 4px;border-radius:4px">[квадратными скобками]</span> ещё не заполнены.
+      Жёлтые «заметки для себя» мама не видит. Время открытия — по Москве.</div>
+    <section class="edcard"><h3>Общее</h3>
+      ${fieldHtml('s','kicker','Надпись сверху','text',content.kicker)}
+      ${fieldHtml('s','title','Название','text',content.title)}
+      ${fieldHtml('s','subtitle','Подзаголовок','area',content.subtitle)}
+      ${fieldHtml('s','signature','Подпись','text',content.signature)}
+      ${fieldHtml('s','pin','PIN для входа в редактор','text',content.pin)}
+    </section>
+    ${days.map((d,i) => {
+      const lock = now() < unlockAt(d);
+      return `<details class="edcard" data-id="${d.id}" ${openEd.has(d.id) ? 'open' : ''}>
+        <summary>${esc(d.label)} — ${esc(d.title)} <small>${lock ? '🔒 откроется ' + fmt(unlockAt(d)) : '🔓 уже открыт'}</small></summary>
+        ${fieldHtml(i,'note','📝 Заметка для себя (маме не видна)','area',d.note,'memo')}
+        <div class="two">${fieldHtml(i,'date','Дата','date',d.date)}${fieldHtml(i,'time','Время открытия','time',d.time)}</div>
+        ${FIELDS.map(([k,l,t]) => fieldHtml(i,k,l,t,d[k])).join('')}
+        <div class="f">📷 Фото (${(d.photos || []).length})</div>
+        <div class="thumbs">${(d.photos || []).map((s,k) => `<div><img src="${esc(s)}" alt=""><button data-delphoto="${i}:${k}" title="Убрать">✕</button></div>`).join('')}</div>
+        <div class="f">🎧 Голосовое: ${d.audio ? 'есть ✓ <button class="sbtn" data-delaudio="' + i + '">убрать</button>' : 'нет'}</div>
+        ${fieldHtml(i,'final','Финальный день (бирюзовое оформление, крылья)','check',d.final)}
+        <div class="row">
+          <label class="sbtn">＋ Фото<input type="file" accept="image/*" multiple data-photo="${i}"></label>
+          <label class="sbtn">＋ Голосовое<input type="file" accept="audio/*,.m4a,.mp3,.ogg,.opus,.wav" data-audio="${i}"></label>
+          <button class="sbtn" data-peek="${i}">👀 Открыть как мама</button>
+          <button class="sbtn danger" data-del="${i}">Удалить день</button>
+        </div></details>`;
+    }).join('')}
+    <div class="row"><button class="sbtn" data-add>＋ Добавить день</button></div>
+  </div>`;
+}
+app.addEventListener('toggle', e => { const d = e.target; if (d.dataset && d.dataset.id) d.open ? openEd.add(d.dataset.id) : openEd.delete(d.dataset.id); }, true);
+function onField(e){
+  const el = e.target; if (!el.dataset || !el.dataset.k || !isAdmin) return;
+  const v = el.type === 'checkbox' ? el.checked : el.value;
+  if (el.dataset.i === 's') content[el.dataset.k] = v; else content.days[+el.dataset.i][el.dataset.k] = v;
+  if (el.type !== 'checkbox') el.classList.toggle('todo', /\[.*\]/.test(v));
+  saveDraft();
+  if (e.type === 'change' && (el.dataset.k === 'date' || el.dataset.k === 'time')) render();
+}
+app.addEventListener('input', onField);
+app.addEventListener('change', async e => {
+  const el = e.target;
+  if (el.dataset && el.dataset.photo) {
+    const d = content.days[+el.dataset.photo]; d.photos = d.photos || [];
+    toast('Добавляю фото…');
+    for (const f of el.files) { try { d.photos.push(await shrink(f)); } catch(_) { toast('Не получилось открыть ' + f.name + ' — попробуй JPG или PNG'); } }
+    saveDraft(); render(); return;
+  }
+  if (el.dataset && el.dataset.audio) {
+    const f = el.files[0]; if (!f) return;
+    if (f.size > 8e6) { toast('Файл больше 8 МБ — сделай голосовое покороче'); return; }
+    const r = new FileReader();
+    r.onload = () => { content.days[+el.dataset.audio].audio = r.result; saveDraft(); render(); toast('Голосовое добавлено 🎧'); };
+    r.readAsDataURL(f); return;
+  }
+  if (el.dataset && el.dataset.k && el.type !== 'text' && el.tagName !== 'TEXTAREA') onField(e);
+});
+app.addEventListener('click', e => {
+  if (!isAdmin || preview) return;
+  const t = e.target.closest('button'); if (!t) return;
+  if (t.dataset.delphoto) { const [i,k] = t.dataset.delphoto.split(':').map(Number); content.days[i].photos.splice(k,1); saveDraft(); render(); }
+  else if (t.dataset.delaudio) { e.preventDefault(); content.days[+t.dataset.delaudio].audio = ''; saveDraft(); render(); }
+  else if (t.dataset.peek) openDay(+t.dataset.peek, true);
+  else if (t.dataset.del) { const i = +t.dataset.del; if (confirm(`Удалить «${content.days[i].label}»?`)) { content.days.splice(i,1); saveDraft(); render(); } }
+  else if ('add' in t.dataset) {
+    const last = content.days[content.days.length - 1];
+    const nd = last ? new Date(Date.parse(last.date + 'T12:00:00Z') + 864e5).toISOString().slice(0,10) : '2026-11-12';
+    const d = {id:'d' + Date.now(), date:nd, time:'09:00', label:'Новый день', title:'[Название]', teaser:'', question:'', answer:'', hint:'', plan:'', where:'', memory:'', letter:'', note:'', audio:'', photos:[], final:false};
+    content.days.push(d); openEd.add(d.id); saveDraft(); render();
+  }
+});
+function shrink(file, maxSide){
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => {
+      const max = maxSide || 1400, k = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+      const c = document.createElement('canvas'); c.width = Math.round(img.naturalWidth*k); c.height = Math.round(img.naturalHeight*k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
+      res(c.toDataURL('image/jpeg', 0.82));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(); };
+    img.src = url;
+  });
+}
+async function exportFile(){
+  content.version = Date.now();
+  const json = JSON.stringify(content).replace(/</g, '\\u003c');
+  const html = SHELL.replace(/(<script id="data" type="application\/json">)[\s\S]*?(<\/script>)/, (m, a, b) => a + json + b);
+  const blob = new Blob([html], {type:'text/html'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'mama.html';
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  dirty = false;
+  try { await store.set('draft', {content, dirty}); } catch(_){}
+  paintSaved('файл скачан ✓');
+}
+
+// ---------- Мой план (только редактор; хранится в IndexedDB этого браузера, в файл НЕ попадает) ----------
+let mp = null, mpDay = null, mpEdit = false, mpT;
+const MP_BLANK = {steps:{time:'',what:'',addr:'',phone:'',note:''}, tickets:{title:'',link:'',code:'',photos:[]}, phones:{name:'',phone:''}, todo:{t:'',ok:false}};
+const mpMap = a => 'https://yandex.ru/maps/?text=' + encodeURIComponent(a);
+const mpTel = p => 'tel:' + String(p).replace(/[^\d+]/g, '');
+const mpUrl = u => /^https?:\/\//i.test(u) ? u : 'https://' + u;
+function mpOf(id){ const d = mp.days[id] = mp.days[id] || {}; for (const k of ['steps','tickets','phones','todo','photos']) d[k] = d[k] || []; d.free = d.free || ''; return d; }
+function mpSave(){ const el = $('#mpsaved'); clearTimeout(mpT); mpT = setTimeout(async () => { try { await store.set('myplan', mp); if (el) el.textContent = 'Сохранено в этом браузере ✓'; } catch(_) { if (el) el.textContent = '⚠️ Не сохранилось'; } }, 300); }
+async function renderPlan(){
+  if (!mp) { try { mp = (await store.get('myplan')) || null; } catch(_){} mp = mp || {days:{}}; mp.days = mp.days || {}; }
+  if (!myPlan || preview) return;
+  const days = content.days;
+  if (!days.some(x => x.id === mpDay)) { const today = msk(Date.now()).toISOString().slice(0,10); mpDay = (days.find(x => x.date === today) || days[0] || {}).id; }
+  const day = days.find(x => x.id === mpDay); if (!day) { app.innerHTML = '<div class="mp">Нет дней</div>'; return; }
+  const d = mpOf(mpDay), E = mpEdit;
+  const thumbs = (arr, path) => arr.map((p,k) => `<span><img src="${esc(p)}" alt="" data-mplb>${E ? `<button data-mpdel="${path}.${k}" aria-label="Убрать">✕</button>` : ''}</span>`).join('');
+  const steps = d.steps.map((s,k) => E ? `<li class="mp-full"><div class="mp-ed">
+      <div class="mp-two"><label class="mp-f">Время<input data-mps="steps.${k}.time" value="${esc(s.time)}"></label><label class="mp-f">Что<input data-mps="steps.${k}.what" value="${esc(s.what)}"></label></div>
+      <label class="mp-f">Адрес (ссылка на карту сделается сама)<input data-mps="steps.${k}.addr" value="${esc(s.addr)}"></label>
+      <label class="mp-f">Телефон<input data-mps="steps.${k}.phone" value="${esc(s.phone)}" inputmode="tel"></label>
+      <label class="mp-f">Пометка<textarea data-mps="steps.${k}.note">${esc(s.note)}</textarea></label>
+      <button class="mp-del" data-mpdel="steps.${k}">Убрать шаг</button></div></li>`
+    : `<li><div class="mp-t">${esc(s.time)}</div><div><div class="mp-w">${esc(s.what)}</div>
+      ${s.addr ? `<div class="mp-addr">${esc(s.addr)}</div>` : ''}${s.note ? `<div class="mp-n">${esc(s.note)}</div>` : ''}
+      ${s.addr || s.phone ? `<div class="mp-chips">${s.addr ? `<a class="mp-chip map" href="${esc(mpMap(s.addr))}" target="_blank" rel="noopener">📍 Яндекс Карты</a>` : ''}${s.phone ? `<a class="mp-chip" href="${esc(mpTel(s.phone))}">📞 ${esc(s.phone)}</a>` : ''}</div>` : ''}</div></li>`).join('');
+  const tickets = d.tickets.map((t,k) => E ? `<div class="mp-ed">
+      <label class="mp-f">Что за бронь<input data-mps="tickets.${k}.title" value="${esc(t.title)}"></label>
+      <label class="mp-f">Ссылка<input data-mps="tickets.${k}.link" value="${esc(t.link)}" inputmode="url"></label>
+      <label class="mp-f">Номер брони / код<input data-mps="tickets.${k}.code" value="${esc(t.code)}"></label>
+      <div class="mp-thumbs">${thumbs(t.photos, 'tickets.' + k + '.photos')}</div>
+      <label class="mp-add">📎 Скриншот / фото билета<input type="file" accept="image/*" multiple data-mpfile="tickets.${k}.photos"></label>
+      <br><button class="mp-del" data-mpdel="tickets.${k}">Убрать</button></div>`
+    : `<div class="mp-tk"><b>${esc(t.title)}</b>${t.code ? `<br><span class="mp-code">${esc(t.code)}</span>` : ''}
+      ${t.link ? `<div class="mp-chips"><a class="mp-chip" href="${esc(mpUrl(t.link))}" target="_blank" rel="noopener">🔗 Открыть бронь</a></div>` : ''}
+      ${t.photos.length ? `<div class="mp-thumbs">${thumbs(t.photos)}</div>` : ''}</div>`).join('');
+  const phones = d.phones.map((p,k) => E ? `<div class="mp-ed"><div class="mp-two" style="grid-template-columns:1fr 1fr"><label class="mp-f">Кто<input data-mps="phones.${k}.name" value="${esc(p.name)}"></label><label class="mp-f">Телефон<input data-mps="phones.${k}.phone" value="${esc(p.phone)}" inputmode="tel"></label></div><button class="mp-del" data-mpdel="phones.${k}">Убрать</button></div>`
+    : `<div class="mp-ph"><span>${esc(p.name)}</span>${p.phone ? `<a class="mp-chip" href="${esc(mpTel(p.phone))}">📞 ${esc(p.phone)}</a>` : '<span class="mp-empty">нет номера</span>'}</div>`).join('');
+  const todo = d.todo.map((t,k) => E ? `<div class="mp-ed"><label class="mp-f">Пункт<input data-mps="todo.${k}.t" value="${esc(t.t)}"></label><button class="mp-del" data-mpdel="todo.${k}">Убрать</button></div>`
+    : `<label><input type="checkbox" data-mpchk="${k}" ${t.ok ? 'checked' : ''}><span>${esc(t.t)}</span></label>`).join('');
+  const empty = '<div class="mp-empty">Пока пусто</div>';
+  const add = k => E ? `<button class="mp-add" data-mpadd="${k}">＋ ${{steps:'Шаг',tickets:'Бронь',phones:'Телефон',todo:'Пункт'}[k]}</button>` : '';
+  app.innerHTML = `<div class="mp">
+    <div class="mp-head"><h1>Мой план</h1>
+      <div class="mp-lock">🔒 <b>Только для тебя.</b> Хранится в этом браузере, мама не видит, в файл для GitHub не попадает. Коды и брони здесь можно держать спокойно.</div></div>
+    <div class="mp-days">${days.map(x => { const p = dparts(x); return `<button data-mpday="${x.id}" class="${x.id === mpDay ? 'on' : ''}"><b>${p.day}</b><span>${['вс','пн','вт','ср','чт','пт','сб'][WD.indexOf(p.wd)] || ''}</span></button>`; }).join('')}</div>
+    <div class="mp-title"><h2>${esc(day.title)}</h2><button class="mp-mode ${E ? 'on' : ''}" data-mpmode>${E ? '✓ Готово' : '✏️ Править'}</button></div>
+    <section class="mp-sec"><h3>🗺 Маршрут</h3><ul class="mp-steps">${steps || `<li class="mp-full">${empty}</li>`}</ul>${add('steps')}</section>
+    <section class="mp-sec"><h3>🎟 Билеты и брони</h3>${tickets || empty}${add('tickets')}</section>
+    <section class="mp-sec"><h3>📞 Телефоны</h3>${phones || empty}${add('phones')}</section>
+    <section class="mp-sec mp-todo"><h3>✅ Не забыть</h3>${todo || empty}${add('todo')}</section>
+    <section class="mp-sec"><h3>📷 Фото и скриншоты</h3><div class="mp-thumbs">${thumbs(d.photos, 'photos') || '<span class="mp-empty">Пока пусто</span>'}</div>
+      <label class="mp-add">📷 Добавить<input type="file" accept="image/*" multiple data-mpfile="photos"></label></section>
+    <section class="mp-sec"><h3>📝 Просто заметки</h3>${E ? `<label class="mp-f"><textarea data-mps="free" style="min-height:120px">${esc(d.free)}</textarea></label>` : (d.free ? `<div class="mp-free">${esc(d.free)}</div>` : empty)}</section>
+    <div class="mp-saved" id="mpsaved"></div>
+    <div class="mp-backup">План живёт только в этом браузере. Чтобы перенести с ноутбука на телефон — скачай копию, перешли себе и загрузи на телефоне. На GitHub этот файл не клади.<br>
+      <button class="mp-chip" data-mpexport>⬇️ Скачать копию плана</button><label class="mp-chip">⬆️ Загрузить копию<input type="file" accept=".json,application/json" data-mpimport></label></div>
+  </div>`;
+}
+function mpPath(path){ const ks = path.split('.'); let o = mpOf(mpDay); while (ks.length > 1) o = o[ks.shift()]; return [o, ks[0]]; }
+app.addEventListener('input', e => { const s = e.target.dataset && e.target.dataset.mps; if (!s || !myPlan) return; const [o,k] = mpPath(s); o[k] = e.target.value; mpSave(); });
+app.addEventListener('change', async e => {
+  const el = e.target; if (!myPlan || !el.dataset) return;
+  if (el.dataset.mpchk) { mpOf(mpDay).todo[+el.dataset.mpchk].ok = el.checked; mpSave(); }
+  else if (el.dataset.mpfile) { const [o,k] = mpPath(el.dataset.mpfile); toast('Добавляю…');
+    for (const f of el.files) { try { o[k].push(await shrink(f, 1800)); } catch(_) { toast('Не получилось открыть ' + f.name); } }
+    mpSave(); renderPlan(); }
+  else if ('mpimport' in el.dataset) { const f = el.files[0]; if (!f) return;
+    try { const j = JSON.parse(await f.text()); if (!j || !j.days) throw 0;
+      if (!confirm('Заменить план в этом браузере загруженной копией?')) return;
+      mp = j; mpSave(); renderPlan(); toast('План загружен ✓'); } catch(_) { toast('Это не похоже на копию плана'); } }
+});
+app.addEventListener('click', e => {
+  if (!myPlan || preview) return;
+  const img = e.target.closest('[data-mplb]'); if (img) { lb.innerHTML = `<img src="${img.src}" alt="">`; lb.hidden = false; return; }
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.mpday) { mpDay = b.dataset.mpday; renderPlan(); scrollTo(0,0); }
+  else if ('mpmode' in b.dataset) { mpEdit = !mpEdit; renderPlan(); }
+  else if (b.dataset.mpadd) { mpOf(mpDay)[b.dataset.mpadd].push(clone(MP_BLANK[b.dataset.mpadd])); mpSave(); renderPlan(); }
+  else if (b.dataset.mpdel) { const [o,k] = mpPath(b.dataset.mpdel); if (confirm('Убрать?')) { o.splice(+k,1); mpSave(); renderPlan(); } }
+  else if ('mpexport' in b.dataset) {
+    const blob = new Blob([JSON.stringify(mp)], {type:'application/json'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'moy-plan.json';
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  }
+});
+
+// ---------- запуск ----------
+function render(){ if (isAdmin && myPlan && !preview) renderPlan(); else if (isAdmin && !preview) renderEditor(); else renderMom(); }
+setInterval(() => {
+  if (sheet.hidden && (!isAdmin || preview)) renderMom();
+  if (isAdmin && simTime == null) { const s = $('#sim'); if (s && document.activeElement !== s) s.value = toLocalInput(Date.now()); }
+}, 30000);
+
+function renderDemo(){
+  const el = $('#demo'); if (!DEMO || !el) return;
+  el.innerHTML = `Макет. Сейчас как будто ${fmt(demoTime)} — в макете открываются и закрытые дни.<br>
+    <button data-dt="2026-11-12T19:00">до приезда</button><button data-dt="2026-11-13T10:00">13 ноября</button><button data-dt="2026-11-16T10:00">все дни</button><button data-dreset>↺ сбросить разгадки</button>`;
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('#demo button'); if (!b) return;
+  if (b.dataset.dt) demoTime = Date.parse(b.dataset.dt + ':00+03:00');
+  if ('dreset' in b.dataset) saveProg({solved:{}, unsealed:{}});
+  renderDemo(); renderMom();
+});
+renderDemo();
+let adminOk = false; try { adminOk = sessionStorage.getItem('mama-admin') === '1'; } catch(_){}
+if (wantsAdmin) adminOk ? enterAdmin() : renderPin();
+else renderMom();
+})();
+</script>
+</body>
+</html>
